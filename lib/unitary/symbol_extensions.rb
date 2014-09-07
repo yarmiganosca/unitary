@@ -1,9 +1,9 @@
 module Unitary
   module SymbolExtensions
-    def coerce n
+    def coerce number
       [
-        Quantity.new(n, Dimension[]),
-        Quantity.new(1, to_dimension)
+        Quantity.new(number, Dimension[]),
+        Quantity.new(1     , to_dimension)
       ]
     end
 
@@ -11,16 +11,16 @@ module Unitary
       Dimension[self, 1]
     end
 
-    def * n
-      to_dimension * n
+    def * number
+      to_dimension * number
     end
 
-    def / n
-      to_dimension / n
+    def / number
+      to_dimension / number
     end
 
-    def ** n
-      to_dimension ** n
+    def ** number
+      to_dimension ** number
     end
   end
 end
