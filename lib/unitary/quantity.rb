@@ -9,42 +9,42 @@ module Unitary
       @dimension = dimension
     end
 
-    def == q
+    def == quantity
       [:size, :dimension].map do |sym|
-        q.respond_to?(sym) && self.send(sym) == q.send(sym)
+        quantity.respond_to?(sym) && self.send(sym) == quantity.send(sym)
       end.all?
     end
 
-    def * q
-      if q.respond_to?(:size) && q.respond_to?(:dimension)
-        self.class.new(size * q.size, dimension * q.dimension)
+    def * quantity
+      if quantity.respond_to?(:size) && quantity.respond_to?(:dimension)
+        self.class.new(size * quantity.size, dimension * quantity.dimension)
       else
-        case q
+        case quantity
         when Numeric
-          self.class.new(size * q, dimension)
+          self.class.new(size * quantity, dimension)
         when Symbol, Hash
-          self.class.new(size, dimension * q)
+          self.class.new(size, dimension * quantity)
         end
       end
     end
 
-    def / q
-      self * (q ** -1)
+    def / quantity
+      self * (quantity ** -1)
     end
 
-    def ** n
-      self.class.new(size ** n, dimension ** n)
+    def ** exponent
+      self.class.new(size ** exponent, dimension ** exponent)
     end
 
-    def + q
-      raise "not compatible" unless q.dimension == dimension
+    def + quantity
+      raise "not compatible" unless quantity.dimension == dimension
 
-      self.class.new(size + q.size, dimension)
+      self.class.new(size + quantity.size, dimension)
     end
 
-    def coerce n
+    def coerce number
       [
-        Quantity.new(n, Dimension[]),
+        Quantity.new(number, Dimension[]),
         self
       ]
     end
