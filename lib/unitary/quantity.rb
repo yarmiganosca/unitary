@@ -16,15 +16,13 @@ module Unitary
     end
 
     def * quantity
-      if quantity.respond_to?(:size) && quantity.respond_to?(:dimension)
+      case quantity
+      when Quantity
         self.class.new(size * quantity.size, dimension * quantity.dimension)
-      else
-        case quantity
-        when Numeric
-          self.class.new(size * quantity, dimension)
-        when Symbol, Dimension
-          self.class.new(size, dimension * quantity)
-        end
+      when Numeric
+        self.class.new(size * quantity, dimension)
+      when Symbol, Dimension
+        self.class.new(size, dimension * quantity)
       end
     end
 
