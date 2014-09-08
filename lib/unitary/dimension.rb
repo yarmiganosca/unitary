@@ -22,7 +22,7 @@ module Unitary
     end
 
     def == dimension
-      dimension.is_a?(self.class) &&
+      dimension.respond_to?(:exponents_by_unit) &&
         exponents_by_unit == dimension.exponents_by_unit
     end
 

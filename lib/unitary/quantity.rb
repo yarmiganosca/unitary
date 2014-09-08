@@ -10,7 +10,8 @@ module Unitary
     end
 
     def == quantity
-      quantity.is_a?(self.class) &&
+      quantity.respond_to?(:size) &&
+        quantity.respond_to?(:dimension) &&
         size      == quantity.size &&
         dimension == quantity.dimension
     end
