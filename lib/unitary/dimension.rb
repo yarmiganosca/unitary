@@ -1,9 +1,10 @@
 module Unitary
   class Dimension
+    attr_reader :exponents_by_unit
+
     def initialize(exponents_by_unit = {})
       @exponents_by_unit = exponents_by_unit
     end
-    attr_reader :exponents_by_unit
 
     def exponent_for_unit(unit)
       exponents_by_unit[unit] || 0
