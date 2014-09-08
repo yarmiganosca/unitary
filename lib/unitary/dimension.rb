@@ -4,6 +4,8 @@ module Unitary
 
     def initialize(exponents_by_unit = {})
       @exponents_by_unit = exponents_by_unit
+
+      remove_zeroed_exponents
     end
 
     def exponent_for_unit(unit)
@@ -60,21 +62,21 @@ module Unitary
     def multiply_by_dimension(dimension)
       units_in_either_dimension = (units + dimension.units).uniq
 
-      units_in_either_dimension.each do |unit|
-        exponents_by_unit[unit] = exponent_for_unit(unit) + dimension.exponent_for_unit(unit)
+      new_exponents = units_in_either_dimension.reduce({}) do |h, unit|
+        h[unit] = exponent_for_unit(unit) + dimension.exponent_for_unit(unit)
+        h
       end
 
-      remove_zeroed_exponents
-
-      self
+      self.class.new(new_exponents)
     end
 
     def multiply_all_unit_exponents_by_number(number)
-      exponents_by_unit.each do |unit, exponent|
-        exponents_by_unit[unit] = exponent * number
+      new_exponents = exponents_by_unit.reduce({}) do |h, (unit, exponent)|
+        h[unit] = exponent * number
+        h
       end
 
-      self
+      self.class.new(new_exponents)
     end
 
     def clone

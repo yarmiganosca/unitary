@@ -36,7 +36,7 @@ module Unitary
     end
 
     def + quantity
-      raise IncompatibleDimensionAddition unless quantity.dimension == dimension
+      raise IncompatibleDimensionAddition unless dimension == quantity.dimension
 
       self.class.new(size + quantity.size, dimension)
     end
