@@ -74,14 +74,6 @@ module Unitary
       self
     end
 
-    def + dimension
-      units_in_either_dimension = (units + dimension.units).uniq
-
-      units_in_either_dimension.map do |unit|
-        [unit, exponent_for_unit(unit) + dimension.exponent_for_unit(unit)]
-      end
-    end
-
     private
 
     def clone
