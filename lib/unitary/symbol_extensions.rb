@@ -2,13 +2,13 @@ module Unitary
   module SymbolExtensions
     def coerce number
       [
-        Quantity.new(number, Dimension[]),
+        Quantity.new(number, Dimension.new),
         Quantity.new(1     , to_dimension)
       ]
     end
 
     def to_dimension
-      Dimension[self, 1]
+      Dimension.new({self => 1})
     end
 
     def * number

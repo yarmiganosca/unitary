@@ -22,7 +22,7 @@ module Unitary
         case quantity
         when Numeric
           self.class.new(size * quantity, dimension)
-        when Symbol, Hash
+        when Symbol, Dimension
           self.class.new(size, dimension * quantity)
         end
       end
@@ -44,7 +44,7 @@ module Unitary
 
     def coerce number
       [
-        Quantity.new(number, Dimension[]),
+        Quantity.new(number, Dimension.new),
         self
       ]
     end

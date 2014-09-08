@@ -1,36 +1,36 @@
 require_relative 'spec_helper'
 
-describe Unitary do
+module Unitary
   describe "Symbol coercion" do
     it "gets multiplication right" do
       (4.67 * :mg).size.must_equal 4.67
-      (3 * :kg).dimension.must_equal({kg: 1})
+      (3 * :kg).dimension.must_equal Dimension.new({kg: 1})
     end
   end
 
   describe "Dimension" do
     it "initializes" do
-      dim = Unitary::Dimension[:kw, 1, :hr, 1] * :hr
-      dim.must_equal({kw: 1, hr: 2})
+      dimension = Dimension.new({kw: 1, hr: 1})
+      (dimension * :hr).must_equal Dimension.new({kw: 1, hr: 2})
     end
 
     describe "division" do
       it "makes the exponents negative" do
-        (:mi / :hr).must_equal({mi: 1, hr: -1})
+        (:mi / :hr).must_equal Dimension.new({mi: 1, hr: -1})
       end
 
       it "removes cancelled out exponents" do
-        (:hr * (:mi / :hr)).must_equal({mi: 1})
+        (:hr * (:mi / :hr)).must_equal Dimension.new({mi: 1})
       end
 
       it "handles entirely negative dimensions" do
-        (1 / :hr).dimension.must_equal({hr: -1})
+        (1 / :hr).dimension.must_equal Dimension.new({hr: -1})
       end
     end
 
     describe "exponentiation" do
       it "multiplies the exponents" do
-        ((2 * :m) ** 3).dimension.must_equal({m: 3})
+        ((2 * :m) ** 3).dimension.must_equal Dimension.new({m: 3})
       end
     end
 
@@ -67,8 +67,8 @@ describe Unitary do
   end
 
   describe "compound quantities" do
-    it "simplify" do
-      (5 * (:mi / :hr)).dimension.must_equal({mi: 1, hr: -1})
+    it "simplifies" do
+      (5 * (:mi / :hr)).dimension.must_equal Dimension.new({mi: 1, hr: -1})
       ((5 * (:mi / :hr)) * (3 * :hr)).must_equal (15 * :mi)
 
       ((10 * :mi) / (2 * :hr)).must_equal (5 * (:mi / :hr))
