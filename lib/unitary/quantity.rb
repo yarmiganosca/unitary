@@ -10,9 +10,9 @@ module Unitary
     end
 
     def == quantity
-      [:size, :dimension].map do |sym|
-        quantity.respond_to?(sym) && self.send(sym) == quantity.send(sym)
-      end.all?
+      quantity.is_a?(self.class) &&
+        size      == quantity.size &&
+        dimension == quantity.dimension
     end
 
     def * quantity
