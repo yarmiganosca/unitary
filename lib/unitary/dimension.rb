@@ -5,6 +5,10 @@ module Unitary
     end
     attr_reader :exponents_by_unit
 
+    def exponent_for_unit(unit)
+      exponents_by_unit[unit] || 0
+    end
+
     def units
       exponents_by_unit.keys
     end
@@ -21,14 +25,6 @@ module Unitary
         exponents_by_unit == dimension.exponents_by_unit
     end
 
-    def remove_zeroed_exponents
-      exponents_by_unit.reject! { |unit, exponent| exponent == 0 }
-    end
-
-    def exponent_for_unit(unit)
-      exponents_by_unit[unit] || 0
-    end
-
     def * dimension
       case dimension
       when Symbol
@@ -38,6 +34,20 @@ module Unitary
       else
         dimension * self
       end
+    end
+
+    def / dimension
+      self * (dimension ** -1)
+    end
+
+    def ** exponent
+      multiply_all_unit_exponents_by_number(exponent)
+    end
+
+    private
+
+    def remove_zeroed_exponents
+      exponents_by_unit.reject! { |unit, exponent| exponent == 0 }
     end
 
     def multiply_by_unit(unit)
@@ -58,14 +68,6 @@ module Unitary
       self
     end
 
-    def / dimension
-      self * (dimension ** -1)
-    end
-
-    def ** exponent
-      multiply_all_unit_exponents_by_number(exponent)
-    end
-
     def multiply_all_unit_exponents_by_number(number)
       exponents_by_unit.each do |unit, exponent|
         exponents_by_unit[unit] = exponent * number
@@ -73,8 +75,6 @@ module Unitary
 
       self
     end
-
-    private
 
     def clone
       self.class.new(exponents_by_unit.clone)
