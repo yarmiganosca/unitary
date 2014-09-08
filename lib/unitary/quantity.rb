@@ -17,7 +17,7 @@ module Unitary
 
     def * quantity
       case quantity
-      when Quantity
+      when self.class
         self.class.new(size * quantity.size, dimension * quantity.dimension)
       when Numeric
         self.class.new(size * quantity, dimension)

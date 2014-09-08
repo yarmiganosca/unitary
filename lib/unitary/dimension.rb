@@ -22,16 +22,16 @@ module Unitary
     end
 
     def == dimension
-      dimension.respond_to?(:exponents_by_unit) &&
+      dimension.is_a?(self.class) &&
         exponents_by_unit == dimension.exponents_by_unit
     end
 
     def * dimension
       case dimension
-      when Symbol
-        multiply_by_unit(dimension)
       when self.class
         multiply_by_dimension(dimension)
+      when Symbol
+        multiply_by_unit(dimension)
       else
         dimension * self
       end
