@@ -34,7 +34,7 @@ module Unitary
         multiply_by_dimension(dimension)
       when Symbol
         multiply_by_unit(dimension)
-      else
+      when Numeric
         dimension * self
       end
     end
