@@ -17,7 +17,8 @@ module Unitary
     end
 
     def == dimension
-      exponents_by_unit == dimension.exponents_by_unit
+      dimension.respond_to?(:exponents_by_unit) &&
+        exponents_by_unit == dimension.exponents_by_unit
     end
 
     def remove_zeroed_exponents
@@ -40,13 +41,15 @@ module Unitary
     end
 
     def multiply_by_unit(unit)
-      multiply_by_dimension(Dimension.new({unit => 1}))
+      dimension_for_unit = Dimension.new({unit => 1})
+
+      multiply_by_dimension(dimension_for_unit)
     end
 
     def multiply_by_dimension(dimension)
-      unique_units = (units + dimension.units).uniq
+      units_in_either_dimension = (units + dimension.units).uniq
 
-      unique_units.each do |unit|
+      units_in_either_dimension.each do |unit|
         exponents_by_unit[unit] = exponent_for_unit(unit) + dimension.exponent_for_unit(unit)
       end
 
@@ -72,9 +75,9 @@ module Unitary
     end
 
     def + dimension
-      unique_units = (units + dimension.units).uniq
+      units_in_either_dimension = (units + dimension.units).uniq
 
-      unique_units.map do |unit|
+      units_in_either_dimension.map do |unit|
         [unit, exponent_for_unit(unit) + dimension.exponent_for_unit(unit)]
       end
     end
